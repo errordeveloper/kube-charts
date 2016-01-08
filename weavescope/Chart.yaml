@@ -1,8 +1,9 @@
 name: weavescope
 home: http://weave.works/product/scope/
-version: 0.1.0
+version: 0.1.1
 description: Weave Scope chart
 maintainers:
 - Rimas Mocevicius <rimas@deis.com>
+- Ilya Dmitrichenko <ilya@weave.works>
 details: |-
   This chart allows to run Weave Scope on Kubernetes

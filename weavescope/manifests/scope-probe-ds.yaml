@@ -3,31 +3,36 @@ kind: DaemonSet
 metadata:
   name: weave-scope-probe
   labels:
+    daemonset: weave-scope-probe
     heritage: helm
-    k8s-app:  weave-scope-probe
 spec:
   template:
     metadata:
       name:  weave-scope-probe
       labels:
+        daemonset: weave-scope-probe
         heritage: helm
-        k8s-app:  weave-scope-probe
     spec:
       containers:
       - name:  weave-scope-probe
         image: weaveworks/scope:0.11.1
-        # uncomment the line below and comment the line one after if your Docker bridge interface is cbr0, and also uncomment env: part too
-#        command: ["/home/weave/entrypoint.sh", "--no-app", "--probe.docker.bridge", "cbr0", "--probe.docker", "true", "--probe.proc.root", "weave-scope-app"]
-        command: ["/home/weave/entrypoint.sh", "--no-app", "--probe.docker", "true", "--probe.kubernetes", "true", "weave-scope-app"]
+        command:
+        - "--no-app"
+        - "--probe.docker"
+        - "true"
+        - "--probe.docker.bridge"
+        - "docker0" # change this in case the Docker bridge is named `cbr0` in your system
+        - "--probe.kubernetes"
+        - "true"
+        - "weave-scope-app"
+        hostPID: true
+        hostIPC: true
+        hostNetwork: true
         securityContext:
           privileged: true
         resources:
           limits:
             cpu: 50m
-#        env:
-#        - name: "DOCKER_BRIDGE"
-#          value: "cbr0"
-#          value: "docker0"
         volumeMounts:
         - name: docker-sock
           mountPath: /var/run/docker.sock

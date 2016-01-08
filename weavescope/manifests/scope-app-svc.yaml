@@ -7,7 +7,7 @@ metadata:
     heritage: helm
 spec:
   ports:
-  - name: app
+  - name: weave-scope-app-port
     port: 4040
   selector:
     provider: weave-scope-app
